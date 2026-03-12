@@ -599,11 +599,26 @@ class FilterManagerTest extends TestCase
                 return ['result'];
             }
 
-            public function find(mixed $id): ?object { return null; }
-            public function findAll(): array { return []; }
-            public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array { return []; }
-            public function findOneBy(array $criteria): ?object { return null; }
-            public function getClassName(): string { return 'Entity'; }
+            public function find(mixed $id): ?object
+            {
+                return null;
+            }
+            public function findAll(): array
+            {
+                return [];
+            }
+            public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
+            {
+                return [];
+            }
+            public function findOneBy(array $criteria): ?object
+            {
+                return null;
+            }
+            public function getClassName(): string
+            {
+                return 'Entity';
+            }
         };
 
         $this->userResolver->method('getCurrentUser')->willReturn($user);
@@ -643,11 +658,26 @@ class FilterManagerTest extends TestCase
                 return [];
             }
 
-            public function find(mixed $id): ?object { return null; }
-            public function findAll(): array { return []; }
-            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array { return []; }
-            public function findOneBy(array $c): ?object { return null; }
-            public function getClassName(): string { return 'Entity'; }
+            public function find(mixed $id): ?object
+            {
+                return null;
+            }
+            public function findAll(): array
+            {
+                return [];
+            }
+            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array
+            {
+                return [];
+            }
+            public function findOneBy(array $c): ?object
+            {
+                return null;
+            }
+            public function getClassName(): string
+            {
+                return 'Entity';
+            }
         };
 
         $this->userResolver->method('getCurrentUser')->willReturn(null);
@@ -662,7 +692,9 @@ class FilterManagerTest extends TestCase
         $capturedFm = false;
 
         $repository = new class ($capturedFm) implements ObjectRepository {
-            public function __construct(public mixed &$capturedFm) {}
+            public function __construct(public mixed &$capturedFm)
+            {
+            }
 
             public function findByFilterManager(array $f, array $p, ?object $u, string $scope, ?FilterManager $fm = null): array
             {
@@ -670,11 +702,26 @@ class FilterManagerTest extends TestCase
                 return [];
             }
 
-            public function find(mixed $id): ?object { return null; }
-            public function findAll(): array { return []; }
-            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array { return []; }
-            public function findOneBy(array $c): ?object { return null; }
-            public function getClassName(): string { return 'Entity'; }
+            public function find(mixed $id): ?object
+            {
+                return null;
+            }
+            public function findAll(): array
+            {
+                return [];
+            }
+            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array
+            {
+                return [];
+            }
+            public function findOneBy(array $c): ?object
+            {
+                return null;
+            }
+            public function getClassName(): string
+            {
+                return 'Entity';
+            }
         };
 
         $fm = new FilterManager($this->userResolver, 100, ['mine' => 'moi', 'others' => 'autres', 'all' => 'tout'], 'auteur');

@@ -7,7 +7,6 @@ namespace EricGansa\FilterManagerBundle\Tests\Filter;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use EricGansa\FilterManagerBundle\Contract\SecurityUserResolverInterface;
 use EricGansa\FilterManagerBundle\Filter\FilterManager;
 use EricGansa\FilterManagerBundle\Filter\FilterManagerTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -57,7 +56,9 @@ class FilterManagerTraitTest extends TestCase
         $this->repo = new class ($qb) {
             use FilterManagerTrait;
 
-            public function __construct(private readonly QueryBuilder $mockQb) {}
+            public function __construct(private readonly QueryBuilder $mockQb)
+            {
+            }
 
             public function createQueryBuilder(string $alias): QueryBuilder
             {

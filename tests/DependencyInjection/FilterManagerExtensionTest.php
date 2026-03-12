@@ -103,7 +103,7 @@ class FilterManagerExtensionTest extends TestCase
 
     public function testLoadWithoutSecurityBundleRegistersNullResolver(): void
     {
-        $extension = new class extends FilterManagerExtension {
+        $extension = new class () extends FilterManagerExtension {
             protected function hasSecurityBundle(): bool
             {
                 return false;
