@@ -162,11 +162,8 @@ jobs:
 
       - name: Register bundle in Symfony kernel
         run: |
-          cat >> test-app/config/bundles.php << 'EOF'
-
-          // Added by CI build-validation
-          EricGansa\FilterManagerBundle\FilterManagerBundle::class => ['all' => true],
-          EOF
+          sed -i "s/^];$/    EricGansa\\\\FilterManagerBundle\\\\FilterManagerBundle::class => ['all' => true],\n];/" \
+            test-app/config/bundles.php
 
       - name: Validate bundle loads without error
         working-directory: test-app
