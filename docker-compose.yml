@@ -3,18 +3,14 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-      args:
-        GIT_USER_NAME: "Eric Gansa"
-        GIT_USER_EMAIL: "ericgansa02@gmail.com"
     volumes:
       - .:/app
       - composer-cache:/root/.composer/cache
     working_dir: /app
+    tty: true                      # ✅ garde le conteneur vivant
+    stdin_open: true               # ✅ équivalent du flag -it
     environment:
       - XDEBUG_MODE=coverage
-    # Override to run specific commands:
-    # docker compose run --rm php vendor/bin/phpunit
-    # docker compose run --rm php composer install
 
 volumes:
   composer-cache:
