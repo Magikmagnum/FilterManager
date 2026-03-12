@@ -9,14 +9,13 @@ use Doctrine\Persistence\ObjectRepository;
 use EricGansa\FilterManagerBundle\Contract\SecurityUserResolverInterface;
 use EricGansa\FilterManagerBundle\Filter\FilterManager;
 use EricGansa\FilterManagerBundle\Security\NullSecurityUserResolver;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @covers \EricGansa\FilterManagerBundle\Filter\FilterManager
- */
+#[CoversClass(FilterManager::class)]
 class FilterManagerTest extends TestCase
 {
     private FilterManager $filterManager;
@@ -219,6 +218,7 @@ class FilterManagerTest extends TestCase
         $filters = $this->invokeFilters($request);
 
         $this->assertSame('<', $filters[0]['operator']);
+        $this->assertInstanceOf(\DateTimeImmutable::class, $filters[0]['value']);
     }
 
     public function testExtractFiltersArrayFrom(): void
@@ -339,7 +339,7 @@ class FilterManagerTest extends TestCase
     {
         $qb   = $this->buildMockQb(['andWhere', 'setParameter', 'expr']);
         $expr = $this->createMock(\Doctrine\ORM\Query\Expr::class);
-        $expr->method('like')->willReturn('e.name LIKE :param');
+        $expr->method('like')->willReturn(new \Doctrine\ORM\Query\Expr\Comparison('e.name', 'LIKE', ':param'));
         $qb->method('expr')->willReturn($expr);
         $qb->method('getDQLPart')->willReturn([]);
         $qb->method('andWhere')->willReturnSelf();
@@ -593,7 +593,8 @@ class FilterManagerTest extends TestCase
                 array $filters,
                 array $pagination,
                 ?object $user,
-                string $scope
+                string $scope,
+                ?FilterManager $filterManager = null
             ): array {
                 return ['result'];
             }
@@ -635,7 +636,7 @@ class FilterManagerTest extends TestCase
             ) {
             }
 
-            public function findByFilterManager(array $f, array $p, ?object $u, string $scope): array
+            public function findByFilterManager(array $f, array $p, ?object $u, string $scope, ?FilterManager $fm = null): array
             {
                 $this->called        = true;
                 $this->capturedScope = $scope;
@@ -654,6 +655,33 @@ class FilterManagerTest extends TestCase
 
         $this->assertTrue($called);
         $this->assertSame('all', $capturedScope);
+    }
+
+    public function testMapRequestToRepositoryPassesFilterManagerInstanceToMethod(): void
+    {
+        $capturedFm = false;
+
+        $repository = new class ($capturedFm) implements ObjectRepository {
+            public function __construct(public mixed &$capturedFm) {}
+
+            public function findByFilterManager(array $f, array $p, ?object $u, string $scope, ?FilterManager $fm = null): array
+            {
+                $this->capturedFm = $fm;
+                return [];
+            }
+
+            public function find(mixed $id): ?object { return null; }
+            public function findAll(): array { return []; }
+            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array { return []; }
+            public function findOneBy(array $c): ?object { return null; }
+            public function getClassName(): string { return 'Entity'; }
+        };
+
+        $fm = new FilterManager($this->userResolver, 100, ['mine' => 'moi', 'others' => 'autres', 'all' => 'tout'], 'auteur');
+        $this->userResolver->method('getCurrentUser')->willReturn(null);
+        $fm->mapRequestToRepository(new Request(), $repository, 'findByFilterManager');
+
+        $this->assertSame($fm, $capturedFm);
     }
 
     // =========================================================================

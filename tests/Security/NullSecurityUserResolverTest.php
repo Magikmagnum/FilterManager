@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace EricGansa\FilterManagerBundle\Tests\Security;
 
 use EricGansa\FilterManagerBundle\Security\NullSecurityUserResolver;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \EricGansa\FilterManagerBundle\Security\NullSecurityUserResolver
- */
+#[CoversClass(NullSecurityUserResolver::class)]
 class NullSecurityUserResolverTest extends TestCase
 {
     public function testGetCurrentUserAlwaysReturnsNull(): void

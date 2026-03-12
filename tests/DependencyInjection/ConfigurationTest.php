@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace EricGansa\FilterManagerBundle\Tests\DependencyInjection;
 
 use EricGansa\FilterManagerBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
 
-/**
- * @covers \EricGansa\FilterManagerBundle\DependencyInjection\Configuration
- */
+#[CoversClass(Configuration::class)]
 class ConfigurationTest extends TestCase
 {
     private Processor $processor;

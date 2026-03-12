@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace EricGansa\FilterManagerBundle\Tests\Security;
 
 use EricGansa\FilterManagerBundle\Security\SecurityUserResolver;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @covers \EricGansa\FilterManagerBundle\Security\SecurityUserResolver
- */
+#[CoversClass(SecurityUserResolver::class)]
 class SecurityUserResolverTest extends TestCase
 {
     public function testGetCurrentUserDelegatesToSecurity(): void
