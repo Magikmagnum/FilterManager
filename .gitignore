@@ -4,3 +4,7 @@
 /.php-cs-fixer.cache
 /.phpunit.cache
 /composer.lock
+.phpunit.result.cache
+.DS_Store
+**/.DS_Store
+.vscode/
