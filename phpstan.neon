@@ -1,0 +1,7 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    checkMissingIterableValueType: false
+    symfony:
+        container_xml_path: null
