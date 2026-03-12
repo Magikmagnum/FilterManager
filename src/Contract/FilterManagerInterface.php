@@ -16,6 +16,8 @@ interface FilterManagerInterface
     /**
      * Maps an HTTP request to a custom repository method.
      *
+     * @param ObjectRepository<object> $repository
+     *
      * @throws \InvalidArgumentException if the method does not exist on the repository
      */
     public function mapRequestToRepository(

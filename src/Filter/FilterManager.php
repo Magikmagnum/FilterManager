@@ -54,6 +54,8 @@ class FilterManager implements FilterManagerInterface
      *
      * The target method will receive: (array $filters, array $pagination, ?object $user, string $scope)
      *
+     * @param ObjectRepository<object> $repository
+     *
      * @throws \InvalidArgumentException if the method does not exist on the repository
      */
     public function mapRequestToRepository(
@@ -99,7 +101,7 @@ class FilterManager implements FilterManagerInterface
                 [$relation, $relField] = explode('.', $field, 2);
 
                 $existingJoins = array_map(
-                    static fn($join) => $join->getAlias(),
+                    static fn ($join) => $join->getAlias(),
                     $qb->getDQLPart('join')[$alias] ?? []
                 );
 
@@ -297,7 +299,7 @@ class FilterManager implements FilterManagerInterface
             'field'    => $field,
             'operator' => $operator,
             'value'    => is_array($value)
-                ? array_map(fn($v) => $this->normalizeValue($v), $value)
+                ? array_map(fn ($v) => $this->normalizeValue($v), $value)
                 : $this->normalizeValue($value),
         ];
     }
