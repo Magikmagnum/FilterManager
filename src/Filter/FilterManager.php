@@ -73,7 +73,7 @@ class FilterManager implements FilterManagerInterface
         $scope      = $request->query->get('scope', $this->scopes['all'] ?? 'all');
         $user       = $this->userResolver->getCurrentUser();
 
-        return $repository->$method($filters, $pagination, $user, $scope);
+        return $repository->$method($filters, $pagination, $user, $scope, $this);
     }
 
     /**

@@ -33,7 +33,7 @@ class FilterManagerExtension extends Extension
 
         // Register the appropriate SecurityUserResolver based on bundle availability
         // This is the mechanism that makes Security OPTIONAL (Improvement 5.1)
-        if (class_exists(\Symfony\Bundle\SecurityBundle\Security::class)) {
+        if ($this->hasSecurityBundle()) {
             $container->register(SecurityUserResolverInterface::class, SecurityUserResolver::class)
                 ->setArgument('$security', new Reference(\Symfony\Bundle\SecurityBundle\Security::class))
                 ->setPublic(false)
@@ -55,5 +55,10 @@ class FilterManagerExtension extends Extension
     public function getAlias(): string
     {
         return 'filter_manager';
+    }
+
+    protected function hasSecurityBundle(): bool
+    {
+        return class_exists(\Symfony\Bundle\SecurityBundle\Security::class);
     }
 }
