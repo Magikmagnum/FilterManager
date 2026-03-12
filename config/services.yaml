@@ -1,0 +1,7 @@
+services:
+    # FilterManager service — arguments are overridden by FilterManagerExtension
+    # based on bundle configuration (max_limit, scopes, scope_field)
+    EricGansa\FilterManagerBundle\Filter\FilterManager:
+        public: true
+        autowire: false
+        autoconfigure: false
