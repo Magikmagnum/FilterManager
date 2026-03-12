@@ -1,7 +1,7 @@
 # FilterManagerBundle
 
 [![CI](https://github.com/ericgansa/filter-manager-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/ericgansa/filter-manager-bundle/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen)](https://github.com/ericgansa/filter-manager-bundle/actions)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/ericgansa/filter-manager-bundle/actions)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-blue)](https://php.net)
 [![Symfony](https://img.shields.io/badge/Symfony-6.4%20%7C%207.x-black)](https://symfony.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
