@@ -1,6 +1,11 @@
 grumphp:
     hooks_dir: ~
     hooks_preset: local
+    git_hook_variables:
+        VAGRANT_HOST_DIR: .
+        VAGRANT_PROJECT_DIR: /app
+        EXEC_GRUMPHP_COMMAND: docker compose run --rm php
+        ENV: {}
     tasks:
         phpcsfixer:
             config: .php-cs-fixer.dist.php
