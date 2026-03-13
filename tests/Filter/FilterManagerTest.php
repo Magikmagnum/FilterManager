@@ -584,18 +584,10 @@ class FilterManagerTest extends TestCase
         $request    = new Request(['scope' => 'mine', 'page' => '1']);
 
         // Add the custom method dynamically via an anonymous class
-        $repository = new class ($user) implements ObjectRepository {
-            public function __construct(private readonly object $expectedUser)
+        $repository = new class () implements ObjectRepository {
+            /** @param array<array{field:string,operator:string,value:mixed}> $filters @param array{page:int,limit:int,sort:string,order:string} $pagination @return array<mixed> */
+            public function findByFilterManager(array $filters, array $pagination, ?object $user, string $scope, ?FilterManager $filterManager = null): array
             {
-            }
-
-            public function findByFilterManager(
-                array $filters,
-                array $pagination,
-                ?object $user,
-                string $scope,
-                ?FilterManager $filterManager = null
-            ): array {
                 return ['result'];
             }
 
@@ -603,21 +595,25 @@ class FilterManagerTest extends TestCase
             {
                 return null;
             }
+            /** @return array<object> */
             public function findAll(): array
             {
                 return [];
             }
-            public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
+            /** @param array<string,mixed> $criteria @param array<string,string>|null $orderBy @return array<object> */
+            public function findBy(array $criteria, ?array $orderBy = null, int|string|null $limit = null, int|string|null $offset = null): array
             {
                 return [];
             }
+            /** @param array<string,mixed> $criteria */
             public function findOneBy(array $criteria): ?object
             {
                 return null;
             }
+            /** @return class-string<object> */
             public function getClassName(): string
             {
-                return 'Entity';
+                return \stdClass::class;
             }
         };
 
@@ -645,12 +641,11 @@ class FilterManagerTest extends TestCase
         $capturedScope = null;
 
         $repository = new class ($called, $capturedScope) implements ObjectRepository {
-            public function __construct(
-                public bool &$called,
-                public ?string &$capturedScope
-            ) {
+            public function __construct(public bool &$called, public ?string &$capturedScope)
+            {
             }
 
+            /** @param array<mixed> $f @param array<mixed> $p @return array<object> */
             public function findByFilterManager(array $f, array $p, ?object $u, string $scope, ?FilterManager $fm = null): array
             {
                 $this->called        = true;
@@ -662,21 +657,25 @@ class FilterManagerTest extends TestCase
             {
                 return null;
             }
+            /** @return array<object> */
             public function findAll(): array
             {
                 return [];
             }
-            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array
+            /** @param array<string,mixed> $c @param array<string,string>|null $o @return array<object> */
+            public function findBy(array $c, ?array $o = null, int|string|null $l = null, int|string|null $off = null): array
             {
                 return [];
             }
+            /** @param array<string,mixed> $c */
             public function findOneBy(array $c): ?object
             {
                 return null;
             }
+            /** @return class-string<object> */
             public function getClassName(): string
             {
-                return 'Entity';
+                return \stdClass::class;
             }
         };
 
@@ -696,6 +695,7 @@ class FilterManagerTest extends TestCase
             {
             }
 
+            /** @param array<mixed> $f @param array<mixed> $p @return array<object> */
             public function findByFilterManager(array $f, array $p, ?object $u, string $scope, ?FilterManager $fm = null): array
             {
                 $this->capturedFm = $fm;
@@ -706,21 +706,25 @@ class FilterManagerTest extends TestCase
             {
                 return null;
             }
+            /** @return array<object> */
             public function findAll(): array
             {
                 return [];
             }
-            public function findBy(array $c, ?array $o = null, $l = null, $off = null): array
+            /** @param array<string,mixed> $c @param array<string,string>|null $o @return array<object> */
+            public function findBy(array $c, ?array $o = null, int|string|null $l = null, int|string|null $off = null): array
             {
                 return [];
             }
+            /** @param array<string,mixed> $c */
             public function findOneBy(array $c): ?object
             {
                 return null;
             }
+            /** @return class-string<object> */
             public function getClassName(): string
             {
-                return 'Entity';
+                return \stdClass::class;
             }
         };
 
