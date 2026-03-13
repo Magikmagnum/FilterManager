@@ -1,0 +1,15 @@
+grumphp:
+    hooks_dir: ~
+    hooks_preset: local
+    tasks:
+        phpcsfixer:
+            config: .php-cs-fixer.dist.php
+            allow_risky: true
+            using_cache: false
+            triggered_by: [php]
+        phpstan:
+            configuration: phpstan.neon
+            use_grumphp_paths: false
+        phpunit:
+            config_file: phpunit.xml.dist
+            always_execute: false
